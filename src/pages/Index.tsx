@@ -8,6 +8,7 @@ import { AddBoxModal } from '@/components/AddBoxModal';
 import { HomeView } from '@/components/HomeView';
 import { BoxesView } from '@/components/BoxesView';
 import { RoomsView } from '@/components/RoomsView';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<NavigationTab>('home');
@@ -32,8 +33,9 @@ const Index = () => {
       <div className="max-w-md mx-auto relative">
         {/* Header */}
         <div className="sticky top-0 bg-background/80 backdrop-blur-sm border-b border-border z-10">
-          <div className="p-4">
+          <div className="p-4 flex items-center justify-between">
             <h1 className="text-xl font-semibold">Packing Organizer</h1>
+            <ThemeToggle />
           </div>
         </div>
 
