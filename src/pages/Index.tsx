@@ -15,7 +15,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState<NavigationTab>('home');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedBox, setSelectedBox] = useState<Box | null>(null);
-  const { boxes, stats, addBox, getAllRooms } = usePackingData();
+  const { boxes, stats, addBox, getAllRooms, addItem, updateItem, removeItem } = usePackingData();
 
   const handleBoxClick = (box: Box) => {
     setSelectedBox(box);
@@ -69,6 +69,9 @@ const Index = () => {
           box={selectedBox}
           open={selectedBox !== null}
           onClose={() => setSelectedBox(null)}
+          onAddItem={addItem}
+          onUpdateItem={updateItem}
+          onRemoveItem={removeItem}
         />
       </div>
     </div>
