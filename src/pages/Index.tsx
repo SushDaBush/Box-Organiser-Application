@@ -1,10 +1,11 @@
 
 import { useState } from 'react';
-import { NavigationTab } from '@/types';
+import { NavigationTab, Box } from '@/types';
 import { usePackingData } from '@/hooks/usePackingData';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { FloatingAddButton } from '@/components/FloatingAddButton';
 import { AddBoxModal } from '@/components/AddBoxModal';
+import { BoxDetailsSheet } from '@/components/BoxDetailsSheet';
 import { HomeView } from '@/components/HomeView';
 import { BoxesView } from '@/components/BoxesView';
 import { RoomsView } from '@/components/RoomsView';
@@ -13,18 +14,23 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 const Index = () => {
   const [activeTab, setActiveTab] = useState<NavigationTab>('home');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedBox, setSelectedBox] = useState<Box | null>(null);
   const { boxes, stats, addBox, getAllRooms } = usePackingData();
+
+  const handleBoxClick = (box: Box) => {
+    setSelectedBox(box);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeView stats={stats} boxes={boxes} />;
+        return <HomeView stats={stats} boxes={boxes} onBoxClick={handleBoxClick} />;
       case 'boxes':
-        return <BoxesView boxes={boxes} />;
+        return <BoxesView boxes={boxes} onBoxClick={handleBoxClick} />;
       case 'rooms':
-        return <RoomsView boxes={boxes} rooms={getAllRooms()} />;
+        return <RoomsView boxes={boxes} rooms={getAllRooms()} onBoxClick={handleBoxClick} />;
       default:
-        return <HomeView stats={stats} boxes={boxes} />;
+        return <HomeView stats={stats} boxes={boxes} onBoxClick={handleBoxClick} />;
     }
   };
 
@@ -56,6 +62,13 @@ const Index = () => {
           onClose={() => setShowAddModal(false)}
           onAdd={addBox}
           rooms={getAllRooms()}
+        />
+
+        {/* Box Details Sheet */}
+        <BoxDetailsSheet
+          box={selectedBox}
+          open={selectedBox !== null}
+          onClose={() => setSelectedBox(null)}
         />
       </div>
     </div>

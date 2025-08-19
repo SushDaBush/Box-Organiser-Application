@@ -6,9 +6,10 @@ import { BoxCard } from './BoxCard';
 interface HomeViewProps {
   stats: PackingStats;
   boxes: Box[];
+  onBoxClick: (box: Box) => void;
 }
 
-export const HomeView = ({ stats, boxes }: HomeViewProps) => {
+export const HomeView = ({ stats, boxes, onBoxClick }: HomeViewProps) => {
   return (
     <div className="space-y-6">
       <StatsCard stats={stats} />
@@ -17,7 +18,7 @@ export const HomeView = ({ stats, boxes }: HomeViewProps) => {
         <h2 className="text-lg font-semibold">Recent Boxes</h2>
         <div className="space-y-3">
           {boxes.slice(0, 5).map((box) => (
-            <BoxCard key={box.id} box={box} />
+            <BoxCard key={box.id} box={box} onClick={() => onBoxClick(box)} />
           ))}
         </div>
       </div>

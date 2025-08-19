@@ -5,9 +5,10 @@ import { BoxCard } from './BoxCard';
 interface RoomsViewProps {
   boxes: Box[];
   rooms: string[];
+  onBoxClick: (box: Box) => void;
 }
 
-export const RoomsView = ({ boxes, rooms }: RoomsViewProps) => {
+export const RoomsView = ({ boxes, rooms, onBoxClick }: RoomsViewProps) => {
   return (
     <div className="space-y-6">
       <h2 className="text-lg font-semibold">Boxes by Room</h2>
@@ -22,7 +23,7 @@ export const RoomsView = ({ boxes, rooms }: RoomsViewProps) => {
             </h3>
             <div className="space-y-3 pl-4">
               {roomBoxes.map((box) => (
-                <BoxCard key={box.id} box={box} />
+                <BoxCard key={box.id} box={box} onClick={() => onBoxClick(box)} />
               ))}
             </div>
           </div>
