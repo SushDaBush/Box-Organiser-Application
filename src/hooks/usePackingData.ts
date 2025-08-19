@@ -58,6 +58,46 @@ export const usePackingData = () => {
     return rooms.sort();
   };
 
+  const addItemToBox = (boxId: string, item: Omit<BoxItem, 'id'>) => {
+    const newItem: BoxItem = {
+      ...item,
+      id: Date.now().toString()
+    };
+    
+    setBoxes(prev => prev.map(box => {
+      if (box.id === boxId) {
+        const updatedItems = [...box.items, newItem];
+        const totalWeight = updatedItems.reduce((sum, item) => sum + item.weight, 0);
+        return { ...box, items: updatedItems, totalWeight };
+      }
+      return box;
+    }));
+  };
+
+  const updateItemInBox = (boxId: string, itemId: string, updates: Partial<BoxItem>) => {
+    setBoxes(prev => prev.map(box => {
+      if (box.id === boxId) {
+        const updatedItems = box.items.map(item =>
+          item.id === itemId ? { ...item, ...updates } : item
+        );
+        const totalWeight = updatedItems.reduce((sum, item) => sum + item.weight, 0);
+        return { ...box, items: updatedItems, totalWeight };
+      }
+      return box;
+    }));
+  };
+
+  const removeItemFromBox = (boxId: string, itemId: string) => {
+    setBoxes(prev => prev.map(box => {
+      if (box.id === boxId) {
+        const updatedItems = box.items.filter(item => item.id !== itemId);
+        const totalWeight = updatedItems.reduce((sum, item) => sum + item.weight, 0);
+        return { ...box, items: updatedItems, totalWeight };
+      }
+      return box;
+    }));
+  };
+
   return {
     boxes,
     stats,
@@ -65,6 +105,9 @@ export const usePackingData = () => {
     updateBox,
     deleteBox,
     getBoxesByRoom,
-    getAllRooms
+    getAllRooms,
+    addItemToBox,
+    updateItemInBox,
+    removeItemFromBox
   };
 };
